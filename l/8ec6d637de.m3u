@@ -1,0 +1,14 @@
+#EXTM3U
+#CLOUD t=1795217022 kept=6 of=107
+#EXTINF:-1 tvg-id="beINSPORTSXTRAenEspanol.us@SD",BeIN Sports XTRA en Espanol (1080p)
+https://bein-esp-xumo.amagi.tv/playlist.m3u8
+#EXTINF:-1 tvg-id="",Latino Vibes (1080p) [Geo-blocked]
+https://amg00375-fusemedia-latinovibes-xumo-qyjhw.amagi.tv/playlist.m3u8
+#EXTINF:-1 tvg-id="TastemadeenEspanol.us@SD",Tastemade en Espanol (1080p) [Geo-blocked]
+https://tastemadees16us-xumo.amagi.tv/playlist.m3u8
+#EXTINF:-1 tvg-id="",Telemundo Accion (1080p)
+https://xumo-drct-ch835-ekq0p.fast.nbcuni.com/live/master.m3u8
+#EXTINF:-1 tvg-id="",Telemundo Noticias Ahora (1080p)
+https://xumo-xumoent-ch827-uj0ch.fast.nbcuni.com/live/master.m3u8
+#EXTINF:-1 tvg-id="",Telemundo Romance (1080p)
+https://xumo-drct-ch836-57aiq.fast.nbcuni.com/live/master.m3u8

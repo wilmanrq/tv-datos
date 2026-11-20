@@ -1,0 +1,18 @@
+#EXTM3U
+#CLOUD t=1795217022 kept=8 of=407
+#EXTINF:-1 tvg-id="AMCenEspanol.us@SD",AMC en Español (720p) [Geo-blocked]
+https://pb-fmbyorn1d0n1n.akamaized.net/v1/amc_amcespanol_3/samsungheadend_us/latest/main/hls/playlist.m3u8
+#EXTINF:-1 tvg-id="beINSPORTSXTRAenEspanol.us@SD",beIN Sports XTRA en Espanol (1080p)
+https://dc1644a9jazgj.cloudfront.net/beIN_Sports_Xtra_Espanol.m3u8
+#EXTINF:-1 tvg-id="CineRomantico.us@SD",Cine Romantico (720p)
+https://d1si3n1st4nkgb.cloudfront.net/10502/88886011/hls/master.m3u8?ads.xumo_channelId=88886011
+#EXTINF:-1 tvg-id="",Noticias Telemundo Ahora (1080p) [Geo-blocked]
+https://pb-21qh1uz4mmkrs.akamaized.net/master.m3u8
+#EXTINF:-1 tvg-id="",Telemundo Al Día (720p)
+https://d1kq7q3vteqjb.cloudfront.net/master.m3u8
+#EXTINF:-1 tvg-id="VevoLatino.us@SD",Vevo Latino (1080p)
+https://d1vgg34wqvwdqj.cloudfront.net/Vevo_Latino.m3u8
+#EXTINF:-1 tvg-id="",XITE Nuevo Latino (1080p)
+https://d3bsgqzbpkrvbb.cloudfront.net/XITE_Nuevo_Latino.m3u8
+#EXTINF:-1 tvg-id="",XITE Siempre Latino (1080p)
+https://d1xc25jm9e0l4b.cloudfront.net/XITE_Siempre_Latino.m3u8
