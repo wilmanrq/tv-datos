@@ -272,9 +272,123 @@ def key(u):
     return hashlib.md5(u.encode("utf-8")).hexdigest()[:10]
 
 
+# ---------------------------------------------------------------------------------------------------------------
+# Copias filtradas de listas grandes (la app las lee en vez de la original; si algo falla, lee la original).
+# SOLO se quitan entradas que la app descarta igual, con las mismas reglas que usa la app:
+#   · listas "sp" (Free-TV, es_unificado): grupo sin ningún país/idioma de habla hispana  (D.SPG)
+#   · listas us_*: nombre sin marca clara de español                                        (D.skipUs + T.spanishHint)
+# Cualquier duda = la entrada se CONSERVA. La app vuelve a aplicar todos sus filtros de todas formas.
+# ---------------------------------------------------------------------------------------------------------------
+import os, unicodedata, html
+
+SPG = re.compile(r"cine|mexico|spain|espa|colombia|argentina|chile|peru|venezuela|uruguay|paraguay|bolivia|panama|costa rica|guatemala|honduras|salvador|nicaragua|dominican|puerto rico|cuba|ecuador|latin|spanish|hispan", re.I)
+ES_HINT = r"\b(espanol|latino|latina|latinos|telemundo|todo cine|cine (adrenalina|amor|aventura|comedia|premiere|estrella|romantico|en|accion|familiar|clasico|mexicano))\b"
+ES_U = re.compile(ES_HINT)
+ES_A = re.compile(ES_HINT, re.A)
+GROUP_RX = re.compile(r'group-title="([^"]*)"')
+
+FREETV = "https://raw.githubusercontent.com/Free-TV/IPTV/master/playlist.m3u8"
+JONY = "https://raw.githubusercontent.com/IamJony/IPTVListaLibre/refs/heads/main/es_unificado.m3u"
+FILTERED = [(FREETV, "sp"), (JONY, "sp")] + [(RAW + n + ".m3u", "us") for n in FAST_US]
+
+
+def plain(s):
+    return "".join(c for c in unicodedata.normalize("NFD", s.lower()) if unicodedata.category(c) != "Mn")
+
+
+def spanish_hint(name):
+    for n in {name, html.unescape(name)}:
+        p = plain(n)
+        if ES_U.search(p) or ES_A.search(p):
+            return True
+    return False
+
+
+def ext_name(ln):
+    cut, q = -1, False
+    for i, ch in enumerate(ln):
+        if ch == '"':
+            q = not q
+        elif ch == "," and not q:
+            cut = i
+            break
+    return (ln[cut + 1:] if cut >= 0 else ln.rsplit(",", 1)[-1]).strip()
+
+
+def split_entries(text):
+    """(cabecera, [bloques]) ; cada bloque = líneas desde #EXTINF hasta su dirección (o hasta el siguiente #EXTINF)."""
+    head, blocks, cur = [], [], None
+    for ln in text.splitlines():
+        t = ln.strip().lstrip("\ufeff")
+        if t.upper().startswith("#EXTINF"):
+            if cur is not None:
+                blocks.append(cur)
+            cur = [ln]
+        elif cur is None:
+            head.append(ln)
+        else:
+            cur.append(ln)
+            if t and not t.startswith("#"):
+                blocks.append(cur)
+                cur = None
+    if cur is not None:
+        blocks.append(cur)
+    return head, blocks
+
+
+def drop_entry(block, kind):
+    ext = block[0].strip().lstrip("\ufeff")
+    has_url = any(l.strip() and not l.strip().startswith("#") for l in block[1:])
+    if not has_url:
+        return False                                  # entrada rara: se conserva
+    if kind == "sp":
+        m = GROUP_RX.search(ext)
+        g = m.group(1) if m else ""
+        if not g:
+            for l in block[1:]:
+                if l.strip().startswith("#EXTGRP:"):
+                    g = l.strip().split(":", 1)[1].strip()
+                    break
+        return not SPG.search(g)
+    name = ext_name(ext)
+    if not name:
+        return False                                  # sin nombre: se conserva
+    return not spanish_hint(name)
+
+
+def filter_text(text, kind):
+    head, blocks = split_entries(text)
+    kept = [b for b in blocks if not drop_entry(b, kind)]
+    return head, kept, len(blocks)
+
+
+def build_lists(outdir="l"):
+    os.makedirs(outdir, exist_ok=True)
+    keys = []
+    for origin, kind in FILTERED:
+        t = text_of(origin)
+        if not t:
+            print("lista no leída (se omite):", origin[-50:], flush=True)
+            continue
+        head, kept, total = filter_text(t, kind)
+        if total < 5 or not kept:
+            print("lista sospechosa (se omite):", origin[-50:], total, len(kept), flush=True)
+            continue
+        first = next((h for h in head if h.strip().lstrip("\ufeff").upper().startswith("#EXTM3U")), "#EXTM3U").strip().lstrip("\ufeff")
+        lines = [first, "#CLOUD t=%d kept=%d of=%d" % (int(time.time()), len(kept), total)]
+        for b in kept:
+            lines.extend(x.rstrip("\r\n") for x in b)
+        with open(os.path.join(outdir, key(origin) + ".m3u"), "w", encoding="utf-8") as f:
+            f.write("\n".join(lines) + "\n")
+        keys.append(key(origin))
+        print("%-70s %5d de %5d entradas" % (origin[-70:], len(kept), total), flush=True)
+    return keys
+
+
 def main():
     args = sys.argv[1:]
     lists = [[a] for a in args] if args else LISTS
+    lkeys = build_lists() if not args else []
     items = {}
     for urls in lists:
         t = ""
@@ -299,7 +413,7 @@ def main():
                 print(i, "revisadas,", len(good), "buenas,", int(time.time() - t0), "s", flush=True)
     good = sorted(set(good))
     with open("verified.json", "w", encoding="utf-8") as f:
-        json.dump({"v": 1, "t": int(time.time()), "n": len(items), "g": good}, f, separators=(",", ":"))
+        json.dump({"v": 2, "t": int(time.time()), "n": len(items), "g": good, "l": lkeys}, f, separators=(",", ":"))
     print("Listo: %d buenas de %d" % (len(good), len(items)))
 
 
