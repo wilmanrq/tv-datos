@@ -1,0 +1,15 @@
+VERIFICADOR EN LA NUBE - TV Ecuador
+
+1) En github.com crea un repositorio PUBLICO (por ejemplo: tv-ecuador-datos). Debe ser publico para que la app pueda leer verified.json.
+   Solo contiene direcciones de listas que ya son publicas; no pongas aqui tus listas personales.
+2) Sube estos archivos al repositorio (boton "Add file > Upload files"), respetando la carpeta .github/workflows:
+      verificar.py
+      config.json
+      GUIA_AGREGAR_LISTAS.txt  (guia para agregar listas despues)
+      .github/workflows/verificar.yml
+   (Si el navegador no deja subir carpetas ocultas, crea el archivo a mano: "Add file > Create new file" y escribe el nombre
+    .github/workflows/verificar.yml, luego pega su contenido.)
+3) En el repositorio: Settings > Actions > General > "Workflow permissions" > marca "Read and write permissions" > Save.
+4) Pestana Actions > "Verificar canales" > "Run workflow". La primera vez tarda (unos 20-60 min). Al terminar aparece verified.json.
+5) Dime tu usuario y el nombre del repositorio. Yo pongo el enlace en la app:
+      https://raw.githubusercontent.com/USUARIO/REPOSITORIO/main/verified.json

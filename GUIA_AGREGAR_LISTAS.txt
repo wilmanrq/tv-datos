@@ -1,0 +1,38 @@
+COMO AGREGAR UNA LISTA PARA TODOS LOS EQUIPOS (sin tocar cada TV o telefono)
+
+Solo se hace en la pagina de GitHub, desde el navegador:
+
+1) Entra a tu repositorio y haz clic en el archivo  config.json
+2) Clic en el icono del lapiz (Edit this file), arriba a la derecha.
+3) Dentro de los corchetes de "sources" escribe la lista. Ejemplo con una lista:
+
+{
+  "sources": [
+    { "u": "https://sitio.com/mi_lista.m3u", "mode": "int" }
+  ],
+  "block": []
+}
+
+   Con varias listas, se separan con coma (la ultima SIN coma):
+
+{
+  "sources": [
+    { "u": "https://sitio.com/lista1.m3u", "mode": "int" },
+    { "u": "https://otro.com/lista2.m3u",  "mode": "ec" }
+  ],
+  "block": []
+}
+
+   mode "ec"  = sus canales van a la pestana Ecuador
+   mode "int" = sus canales van a Internacional
+   "block" = palabras de canales que NO quieres ver (ejemplo: "block": ["palabra1","palabra2"])
+
+4) Clic en el boton verde "Commit changes..." y de nuevo "Commit changes".
+5) Listo. Cada equipo la recibe solo al abrir la app o en unas horas (hasta 6 h). Para quitarla, borra esa linea y guarda igual.
+
+IMPORTANTE
+- Respeta las comas y las comillas: un error de formato hace que la app ignore TODO el archivo (no se rompe nada, solo no aplica).
+  Para revisarlo, pega el contenido en https://jsonlint.com antes de guardar.
+- Este repositorio es PUBLICO: no pongas enlaces que lleven usuario y clave (por ejemplo get.php?username=...&password=...).
+  Esas listas personales agregalas dentro de la app con "+ Lista" en cada equipo.
+- Pon solo listas de canales gratuitos y legales.
