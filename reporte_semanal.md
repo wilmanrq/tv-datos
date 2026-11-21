@@ -14,10 +14,10 @@
 
 | Lista | Responde | Entradas | Buenas (nube) |
 |---|---|---|---|
-| iptv-org.github.io/iptv/countries/ec.m3u | sí | 112 | 2 |
+| iptv-org.github.io/iptv/countries/ec.m3u | sí | 112 | 4 |
 | raw.githubusercontent.com/velfin13/tv-ecuador-m3u/main/playlist.m3u | sí | 8 | 0 |
 | www.m3u.cl/lista/EC.m3u | sí | 25 | 0 |
-| iptv-org.github.io/iptv/languages/spa.m3u | sí | 2461 | 83 |
+| iptv-org.github.io/iptv/languages/spa.m3u | sí | 2461 | 86 |
 | raw.githubusercontent.com/iptv-org/iptv/master/streams/mx_pluto.m3u | sí | 192 | 0 |
 | raw.githubusercontent.com/iptv-org/iptv/master/streams/mx_samsung.m3u | sí | 6 | 0 |
 | raw.githubusercontent.com/iptv-org/iptv/master/streams/us_pluto.m3u | sí | 400 | 0 |
@@ -26,15 +26,15 @@
 | raw.githubusercontent.com/iptv-org/iptv/master/streams/us_xumo.m3u | sí | 107 | 12 |
 | raw.githubusercontent.com/iptv-org/iptv/master/streams/us_roku.m3u | sí | 32 | 1 |
 | raw.githubusercontent.com/iptv-org/iptv/master/streams/us_plex.m3u | sí | 24 | 1 |
-| raw.githubusercontent.com/iptv-org/iptv/master/streams/us_stirr.m3u | sí | 89 | 3 |
+| raw.githubusercontent.com/iptv-org/iptv/master/streams/us_stirr.m3u | sí | 89 | 5 |
 | raw.githubusercontent.com/iptv-org/iptv/master/streams/us_vizio.m3u | sí | 430 | 13 |
-| raw.githubusercontent.com/Free-TV/IPTV/master/playlist.m3u8 | sí | 2193 | 45 |
+| raw.githubusercontent.com/Free-TV/IPTV/master/playlist.m3u8 | sí | 2193 | 59 |
 | iptv-org.github.io/iptv/countries/mx.m3u | sí | 176 | 3 |
 | iptv-org.github.io/iptv/countries/co.m3u | sí | 166 | 8 |
-| iptv-org.github.io/iptv/countries/ar.m3u | sí | 220 | 13 |
+| iptv-org.github.io/iptv/countries/ar.m3u | sí | 220 | 11 |
 | iptv-org.github.io/iptv/countries/es.m3u | sí | 340 | 8 |
-| iptv-org.github.io/iptv/countries/pe.m3u | sí | 213 | 4 |
-| iptv-org.github.io/iptv/countries/cl.m3u | sí | 211 | 7 |
+| iptv-org.github.io/iptv/countries/pe.m3u | sí | 213 | 5 |
+| iptv-org.github.io/iptv/countries/cl.m3u | sí | 211 | 8 |
 | iptv-org.github.io/iptv/countries/ve.m3u | sí | 102 | 4 |
 | iptv-org.github.io/iptv/countries/uy.m3u | sí | 51 | 2 |
 | iptv-org.github.io/iptv/countries/py.m3u | sí | 108 | 2 |
@@ -48,7 +48,7 @@
 | iptv-org.github.io/iptv/countries/do.m3u | sí | 263 | 5 |
 | iptv-org.github.io/iptv/countries/pr.m3u | sí | 29 | 0 |
 | iptv-org.github.io/iptv/countries/cu.m3u | sí | 5 | 0 |
-| raw.githubusercontent.com/IamJony/IPTVListaLibre/refs/heads/main/es_unificado.m3 | sí | 1418 | 68 |
+| raw.githubusercontent.com/IamJony/IPTVListaLibre/refs/heads/main/es_unificado.m3 | sí | 1418 | 72 |
 | teleonline.github.io/listas/tv.m3u8 | sí | 576 | 6 |
 | raw.githubusercontent.com/CharlieII/IPTV_mexico/refs/heads/main/lista.m3u | sí | 278 | 9 |
 
