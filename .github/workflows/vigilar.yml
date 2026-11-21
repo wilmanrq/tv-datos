@@ -1,0 +1,37 @@
+name: Vigilar listas
+on:
+  schedule:
+    - cron: "43 23 * * 5"       # cada viernes 23:43 UTC = 18:43 hora de Ecuador
+  workflow_dispatch: {}          # también se puede lanzar a mano
+permissions:
+  contents: write
+  issues: write
+concurrency:
+  group: vigilar
+  cancel-in-progress: false
+jobs:
+  vigilar:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Vigilar
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: python vigilar.py
+      - name: Publicar reporte
+        run: |
+          git config user.name "vigilante"
+          git config user.email "vigilante@users.noreply.github.com"
+          git add salud.json reporte_semanal.md candidatos_vistos.json pendientes.json config.json
+          git diff --cached --quiet || git commit -m "reporte semanal $(date -u +%F)"
+          git pull --rebase origin main
+          git push
+      - name: Avisar por Issue (siempre: te llega el resumen semanal)
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh issue create --title "$(cat issue_title.txt)" --body-file issue.md
