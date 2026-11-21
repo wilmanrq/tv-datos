@@ -1,0 +1,52 @@
+name: Responder al reporte
+on:
+  issues:
+    types: [edited]            # cuando marcas una casilla del reporte
+  issue_comment:
+    types: [created]           # o escribes "agregar 1" / "descartar 1" / "quitar 1"
+permissions:
+  contents: write
+  issues: write
+concurrency:
+  group: responder
+  cancel-in-progress: false
+jobs:
+  responder:
+    # solo si lo haces TU (dueño del repositorio) en un reporte semanal
+    if: github.event.sender.login == github.repository_owner && startsWith(github.event.issue.title, 'Reporte semanal')
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Procesar (casillas o comentario)
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          COMMENT: ${{ github.event.comment.body }}
+          EVENT: ${{ github.event_name }}
+          NUM: ${{ github.event.issue.number }}
+        run: |
+          if [ "$EVENT" = "issues" ]; then
+            gh issue view "$NUM" --json body --jq .body > body.md
+            BODY_FILE=body.md python responder.py
+          else
+            python responder.py
+          fi
+      - name: Guardar cambios
+        run: |
+          git config user.name "vigilante"
+          git config user.email "vigilante@users.noreply.github.com"
+          git add config.json pendientes.json descartadas.json
+          git diff --cached --quiet || git commit -m "decisión del dueño (issue ${{ github.event.issue.number }})"
+          git pull --rebase origin main
+          git push
+      - name: Confirmar en el Issue
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NUM: ${{ github.event.issue.number }}
+        run: |
+          [ -s reply.md ] && gh issue comment "$NUM" --body-file reply.md
+          [ -f new_body.md ] && [ -s reply.md ] && gh issue edit "$NUM" --body-file new_body.md
+          exit 0
