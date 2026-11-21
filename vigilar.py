@@ -16,6 +16,9 @@ import verificar as v
 TOKEN = os.environ.get("GITHUB_TOKEN", "")
 ADULT = re.compile(r"xxx|adult|porn|porno|sex|erotic|erotica|18\+|hentai|playboy|brazzers|camgirl|\bhot\b|nude|desnud", re.I)
 QUERIES = ["iptv m3u spanish", "iptv latino m3u", "iptv ecuador m3u", "lista iptv español m3u8", "iptv latinoamerica tv gratis"]
+VOD_NAME = re.compile(r"cine|movie|peli|film|vod|serie|anime|xxx|adult|porn", re.I)
+YEAR_TITLE = re.compile(r"\((?:19|20)\d\d\)")
+OWNER = os.environ.get("GITHUB_REPOSITORY_OWNER", "wilmanrq")
 EXCLUDE_OWNERS = {"iptv-org", "free-tv", "iamjony", "velfin13", "charlieii", "teleonline", "dzh0ni", "jmigue85"}
 
 
@@ -107,8 +110,9 @@ def evaluate(url, text, known_urls):
     adult = sum(1 for l in names if l.upper().startswith("#EXTINF") and ADULT.search(l))
     es = sum(1 for l in names if l.upper().startswith("#EXTINF") and v.SPG.search(l))
     n_ext = max(1, sum(1 for l in names if l.upper().startswith("#EXTINF")))
-    if adult / n_ext > 0.15 or es / n_ext < 0.3:
-        return None
+    vod = sum(1 for l in names if l.upper().startswith("#EXTINF") and YEAR_TITLE.search(l))
+    if adult / n_ext > 0.15 or es / n_ext < 0.3 or vod / n_ext > 0.25 or VOD_NAME.search(url.rsplit("/", 1)[-1]):
+        return None                                    # adultos, no español, o lista de películas/series bajo demanda
     sample = random.sample(new, min(40, len(new)))
     ok = 0
     for u, h in sample:
@@ -130,7 +134,7 @@ def discover(known_urls, seen):
         r = api("/search/repositories?q=" + urllib.parse.quote(q) + "&sort=updated&order=desc&per_page=10")
         for repo in (r or {}).get("items", []):
             full = repo["full_name"]
-            if full in tried or repo.get("fork") or repo.get("archived") or repo["owner"]["login"].lower() in EXCLUDE_OWNERS:
+            if full in tried or VOD_NAME.search(full) or repo.get("fork") or repo.get("archived") or repo["owner"]["login"].lower() in EXCLUDE_OWNERS:
                 continue
             tried.add(full)
             br = repo.get("default_branch", "main")
@@ -205,7 +209,7 @@ def main():
             if p["fallos"] < 2:
                 alive.append(p)
             else:
-                notes.append("- ⚪ Pendiente #%d retirada (ya no cumple las condiciones): %s" % (p["id"], p["url"]))
+                notes.append("- ⚪ Pendiente n.º %d retirada (ya no cumple las condiciones): %s" % (p["id"], p["url"]))
     pend["items"] = alive
 
     # 2) buscar nuevas y acumularlas (máx. 3 pendientes; las que no caben se vuelven a evaluar otra semana)
@@ -244,19 +248,19 @@ def main():
     if cfg_changed:
         save("config.json", cfg)
 
-    md = ["# Reporte semanal (%s)\n" % now_t]
+    md = ["# Reporte semanal (%s)\n" % now_t, "@%s este es tu reporte semanal.\n" % OWNER]
     if pend["items"]:
         md.append("## 📋 Listas nuevas esperando tu decisión\n")
         md.append("**Cómo decidir:** 1) copia el enlace con el botón de copiar (arriba a la derecha del recuadro) y pruébalo si quieres; "
                   "2) **marca UNA casilla** de la lista: ✅ Agregar o 🗑️ Descartar. En unos 30 segundos aparece la confirmación aquí abajo. "
                   "Si no decides, **se quedan acumuladas** y las reviso cada semana (máximo %d).\n" % MAXPEND)
         for p in pend["items"]:
-            md.append("### Lista #%d · %s  _(desde %s)_\n" % (p["id"], p["repo"].split("/")[-1], p["desde"]))
+            md.append("### Lista n.º %d · %s  _(desde %s)_\n" % (p["id"], p["repo"].split("/")[-1], p["desde"]))
             md.append("```\n%s\n```" % p["url"])
             md.append("Repositorio `%s` (actualizado %s) · %d entradas · **%d nuevas** · ~%d%% vivas · adultos %s%% (la app los descarta) · ≈**%d canales nuevos útiles**\n"
                       % (p["repo"], p["actualizado"], p["entradas"], p["nuevas"], p["vivas_pct"], p["adultos_pct"], p["estimadas"]))
-            md.append("- [ ] ✅ **Agregar** la lista #%d <!--a%d-->" % (p["id"], p["id"]))
-            md.append("- [ ] 🗑️ **Descartar** la lista #%d <!--d%d-->\n" % (p["id"], p["id"]))
+            md.append("- [ ] ✅ **Agregar** la lista n.º %d <!--a%d-->" % (p["id"], p["id"]))
+            md.append("- [ ] 🗑️ **Descartar** la lista n.º %d <!--d%d-->\n" % (p["id"], p["id"]))
         md.append("Antes de agregar, confirma que sean canales **gratuitos y legales**.\n")
     else:
         md.append("## 📋 Listas nuevas\n\n- Ninguna pendiente esta semana.\n")
@@ -268,13 +272,14 @@ def main():
     if mine:
         md.append("## Listas que agregó el vigilante (marca la casilla para quitar una)\n")
         for s in mine:
-            md.append("- [ ] 🗑️ **Quitar** la lista #%s: %s (desde %s) <!--q%s-->" % (s.get("id", "?"), s["u"] if isinstance(s["u"], str) else s["u"][0], s.get("desde", ""), s.get("id", 0)))
+            md.append("- [ ] 🗑️ **Quitar** la lista n.º %s: %s (desde %s) <!--q%s-->" % (s.get("id", "?"), s["u"] if isinstance(s["u"], str) else s["u"][0], s.get("desde", ""), s.get("id", 0)))
         md.append("")
     md.append("## Alertas\n")
     md += ["- " + a for a in al] or ["- Ninguna: todo igual que la semana pasada."]
-    md += ["", "## Salud de las listas\n", "| Lista | Responde | Entradas | Buenas (nube) |", "|---|---|---|---|"]
+    md += ["", "<details><summary><b>Salud de las listas (%d) — toca para abrir</b></summary>\n" % len(cur), "| Lista | Responde | Entradas | Buenas (nube) |", "|---|---|---|---|"]
     for o, c in cur.items():
         md.append("| %s | %s | %d | %d |" % (o.replace("https://", "")[:80], "sí" if c["ok"] else "**NO**", c["n"], c["g"]))
+    md.append("\n</details>")
     md.append("\n_Quitar una lista a mano, siempre posible: en `config.json` borra su bloque `{ \"u\": ... }` y guarda._")
     with open("reporte_semanal.md", "w", encoding="utf-8") as f:
         f.write("\n".join(md) + "\n")

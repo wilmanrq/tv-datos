@@ -63,7 +63,7 @@ def rewrite(lines, done, conflicts):
             i = int(m.group(3))
             if i not in seen:
                 seen.add(i)
-                out.append("- ✔️ **#%d: %s** (ver el comentario de abajo)" % (i, done[i]))
+                out.append("- ✔️ **Lista n.º %d: %s** (ver el comentario de abajo)" % (i, done[i]))
             continue
         if m and int(m.group(3)) in conflicts and m.group(1) in "xX":
             ln = ln.replace("[x]", "[ ]").replace("[X]", "[ ]") + "  ⚠️ _marcaste «agregar» y «descartar»: deja solo una_"
@@ -100,11 +100,11 @@ def main():
                 if kind == "agregar":
                     cfg.setdefault("sources", []).append({"u": p["url"], "mode": "int", "auto": True, "id": p["id"], "desde": now_t})
                     done[p["id"]] = "agregada"
-                    reply.append("- ✅ **Agregada la lista #%d «%s»**: %s  \n  Llegará a los equipos al abrir la app o en unas horas (hasta 6 h). Para quitarla: en el próximo reporte tendrá una casilla «Quitar» (o escribe `quitar %d` en un comentario)." % (p["id"], name, p["url"], p["id"]))
+                    reply.append("- ✅ **Agregada la lista n.º %d «%s»**: %s  \n  Llegará a los equipos al abrir la app o en unas horas (hasta 6 h). Para quitarla: en el próximo reporte tendrá una casilla «Quitar» (o escribe `quitar %d` en un comentario)." % (p["id"], name, p["url"], p["id"]))
                 else:
                     desc.append(p["url"])
                     done[p["id"]] = "descartada"
-                    reply.append("- 🗑️ Descartada la lista #%d «%s». No volverá a salir." % (p["id"], name))
+                    reply.append("- 🗑️ Descartada la lista n.º %d «%s». No volverá a salir." % (p["id"], name))
                 changed = True
         else:
             src = cfg.get("sources", [])
@@ -115,7 +115,7 @@ def main():
                 src.remove(s)
                 done[s.get("id", 0)] = "quitada"
                 desc.append(s["u"] if isinstance(s["u"], str) else s["u"][0])
-                reply.append("- ✅ **Quitada la lista #%s**: %s. Los equipos dejarán de usarla en unas horas." % (s.get("id", "?"), s["u"]))
+                reply.append("- ✅ **Quitada la lista n.º %s**: %s. Los equipos dejarán de usarla en unas horas." % (s.get("id", "?"), s["u"]))
                 changed = True
             cfg["sources"] = src
     if changed:
