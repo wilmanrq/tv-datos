@@ -246,6 +246,7 @@ def main():
     save("pendientes.json", pend)
     save("candidatos_vistos.json", sorted(seen))
     if cfg_changed:
+        cfg.setdefault("_", "#EXTM3U")      # la app solo acepta como "lista" un texto que contenga esta marca; sin ella ignora toda la configuración
         save("config.json", cfg)
 
     md = ["# Reporte semanal (%s)\n" % now_t, "@%s este es tu reporte semanal.\n" % OWNER]

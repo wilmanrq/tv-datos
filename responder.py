@@ -208,6 +208,7 @@ def main():
     if changed:
         save("pendientes.json", pend)
         save("descartadas.json", sorted(set(desc)))
+        cfg.setdefault("_", "#EXTM3U")      # la app solo acepta como "lista" un texto que contenga esta marca; sin ella ignora toda la configuración
         save("config.json", cfg)
     if lines is not None:
         open("new_body.md", "w", encoding="utf-8").write(rewrite(lines, done, conflicts))
