@@ -30,7 +30,7 @@ jobs:
           git diff --cached --quiet || git commit -m "reporte semanal $(date -u +%F)"
           git pull --rebase origin main
           git push
-      - name: Avisar por Issue (siempre: te llega el resumen semanal)
+      - name: Avisar por Issue (el resumen semanal)
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
