@@ -387,7 +387,17 @@ def build_lists(outdir="l"):
 
 def main():
     args = sys.argv[1:]
-    lists = [[a] for a in args] if args else LISTS
+    lists = [[a] for a in args] if args else list(LISTS)
+    if not args:                                        # las listas que pusiste tú en config.json (y las del vigilante) también se verifican
+        try:
+            with open("config.json", encoding="utf-8") as f:
+                for s in json.load(f).get("sources", []):
+                    u = s.get("u")
+                    u = u if isinstance(u, list) else [u]
+                    if u and u[0] and u not in lists:
+                        lists.append(u)
+        except Exception as e:
+            print("config.json no se pudo leer (se sigue sin él):", e, flush=True)
     lkeys = build_lists() if not args else []
     items = {}
     for urls in lists:

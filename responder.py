@@ -1,7 +1,28 @@
 #!/usr/bin/env python3
 """Procesa tu respuesta al correo del reporte semanal (comentario del Issue): agregar N / descartar N / quitar N.
 Lee el texto de la variable COMMENT. Escribe reply.md (la confirmación que se publica como comentario)."""
-import json, os, re, time
+import json, os, re, time, urllib.request
+
+try:
+    import verificar as V          # listas que ya trae la app de fábrica
+    BUILTIN = [u for g in V.LISTS for u in g]
+except Exception:
+    BUILTIN = []
+
+
+def norm(u):
+    """Misma dirección escrita distinto (mayúsculas en el dominio, barra final, http/https, github.com/blob) = la misma."""
+    u = u.strip().split("#")[0].rstrip("/")
+    u = re.sub(r"^https?://", "https://", u, flags=re.I)
+    m = re.match(r"^https://github\.com/([^/]+)/([^/]+)/blob/(.+)$", u, re.I)
+    if m:
+        u = "https://raw.githubusercontent.com/%s/%s/%s" % m.groups()
+    m = re.match(r"^(https://[^/]+)(.*)$", u)
+    return (m.group(1).lower() + m.group(2)) if m else u.lower()
+
+
+def first(u):
+    return u if isinstance(u, str) else u[0]
 
 CMD = re.compile(r"^\s*(agrega(?:r)?|a[ñn]ad(?:e|ir)|descarta(?:r)?|quita(?:r)?)\s+(todas|todos|[\d#][\d#\s,y]*)\s*\.?\s*$", re.I)
 
@@ -19,11 +40,26 @@ def save(p, o):
         json.dump(o, f, ensure_ascii=False, indent=1)
 
 
+LISTA = re.compile(r"^\s*(?:mi\s+|agrega(?:r)?\s+|a[ñn]ad(?:e|ir)\s+)?lista(!?)\s+<?(https?://[^\s>`]+)>?\s*$", re.I)
+
+
+def read_url(u):
+    try:
+        req = urllib.request.Request(u, headers={"User-Agent": "Mozilla/5.0"})
+        return urllib.request.urlopen(req, timeout=25).read(3_000_000).decode("utf-8", "ignore")
+    except Exception:
+        return ""
+
+
 def parse(text):
     out = []
     for line in text.replace("\r", "").split("\n"):
         if line.lstrip().startswith(">"):
             continue                                  # texto citado del correo original
+        ml = LISTA.match(line.strip("`* "))
+        if ml:
+            out.append(("lista", (ml.group(2), bool(ml.group(1)))))
+            continue
         m = CMD.match(line.strip("`* "))
         if m:
             verb = m.group(1).lower()
@@ -90,6 +126,32 @@ def main():
     cfg = load("config.json", {"auto": False, "sources": [], "block": []})
     changed = False
     for kind, ids in cmds:
+        if kind == "lista":
+            url, force = ids
+            nu = norm(url)
+            have = [s for s in cfg.get("sources", []) if any(norm(x) == nu for x in ([s["u"]] if isinstance(s["u"], str) else s["u"]))]
+            if have:
+                quien = "la agregaste tú" if have[0].get("user") else "la agregó el vigilante"
+                reply.append("- ⚠️ **Lista repetida, no la agregué:** ya está en GitHub (n.º %s, %s): %s" % (have[0].get("id", "?"), quien, url))
+                continue
+            pe = [p for p in pend["items"] if norm(p["url"]) == nu]
+            if pe:
+                reply.append("- ⚠️ **Lista repetida, no la agregué:** ya está esperando tu decisión como n.º %d. Márcala con «Agregar» (o escribe `agregar %d`): %s" % (pe[0]["id"], pe[0]["id"], url))
+                continue
+            if any(norm(x) == nu for x in BUILTIN):
+                reply.append("- ⚠️ **Lista repetida, no la agregué:** esa lista ya viene incluida de fábrica en la app: %s" % url)
+                continue
+            t = read_url(url)
+            n = len(re.findall(r"(?im)^#EXTINF", t))
+            if not force and n < 3:
+                reply.append("- ⚠️ **No agregué** %s: no pude leerla o no trae canales (%d entradas). Revisa que la dirección esté bien escrita (un error de tecleo es lo más común). Si estás seguro de que es correcta, escribe `lista! %s` para agregarla igual." % (url, n, url))
+                continue
+            nid = pend["next"]; pend["next"] += 1
+            cfg.setdefault("sources", []).append({"u": url, "mode": "int", "user": True, "id": nid, "desde": now_t})
+            reply.append("- ✅ **Agregada tu lista n.º %d** (%d entradas leídas): %s  \n  Llegará a todos tus equipos como si la hubieras puesto a mano (necesitan la app 5.17 o más nueva). Para quitarla: marca «Quitar» en el reporte o escribe `quitar %d`." % (nid, n, url, nid))
+            done[nid] = "agregada"
+            changed = True
+            continue
         if kind in ("agregar", "descartar"):
             sel = list(pend["items"]) if ids == "todas" else [p for p in pend["items"] if p["id"] in ids]
             if not sel and lines is None:
@@ -108,13 +170,14 @@ def main():
                 changed = True
         else:
             src = cfg.get("sources", [])
-            sel = [s for s in src if s.get("auto") and (ids == "todas" or s.get("id") in ids)]
+            sel = [s for s in src if (s.get("auto") or s.get("user")) and (ids == "todas" or s.get("id") in ids)]
             if not sel and lines is None:
                 reply.append("- `quitar`: no encontré una lista del vigilante con ese número (las que pusiste tú a mano se quitan editando `config.json`).")
             for s in sel:
                 src.remove(s)
                 done[s.get("id", 0)] = "quitada"
-                desc.append(s["u"] if isinstance(s["u"], str) else s["u"][0])
+                if s.get("auto"):
+                    desc.append(s["u"] if isinstance(s["u"], str) else s["u"][0])
                 reply.append("- ✅ **Quitada la lista n.º %s**: %s. Los equipos dejarán de usarla en unas horas." % (s.get("id", "?"), s["u"]))
                 changed = True
             cfg["sources"] = src

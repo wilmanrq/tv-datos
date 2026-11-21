@@ -274,6 +274,38 @@ def main():
         for s in mine:
             md.append("- [ ] 🗑️ **Quitar** la lista n.º %s: %s (desde %s) <!--q%s-->" % (s.get("id", "?"), s["u"] if isinstance(s["u"], str) else s["u"][0], s.get("desde", ""), s.get("id", 0)))
         md.append("")
+    own = [s for s in cfg.get("sources", []) if s.get("user")]
+    probs = 0
+    md.append("## 📚 Tus listas (las que pusiste tú)\n")
+    if own:
+        md.append("El vigilante **nunca** las quita: si una falla, tú decides. Marca **Quitar** solo si quieres eliminarla.\n")
+        for s in own:
+            u0 = s["u"] if isinstance(s["u"], str) else s["u"][0]
+            c = cur.get(u0)
+            fails = 0
+            for r in reversed(hist["runs"]):
+                x = r["lists"].get(u0)
+                if x is not None and not x["ok"]:
+                    fails += 1
+                else:
+                    break
+            if c is None:
+                est = "⚪ aún sin revisar (se revisa en el próximo ciclo)"
+            elif not c["ok"]:
+                probs += 1
+                est = "🔴 **no responde** (%d revisión(es) seguidas): puede estar caída; tú decides" % max(fails, 1)
+            elif c["n"] == 0:
+                probs += 1
+                est = "🟠 responde pero **no trae canales**: revisa que la dirección sea correcta"
+            else:
+                est = "🟢 responde · %d entradas · %d buenas en la nube" % (c["n"], c["g"])
+            md.append("**Lista n.º %s** · %s  \n%s  \n- [ ] 🗑️ **Quitar** esta lista <!--q%s-->\n" % (s.get("id", "?"), u0, est, s.get("id", 0)))
+    else:
+        md.append("Todavía no hay ninguna aquí.\n")
+    md.append("### ➕ ¿Quieres agregar una lista tuya?\n")
+    md.append("Respóndeme **con una línea** (desde el correo o aquí abajo): `lista` y la dirección. Ejemplo:\n")
+    md.append("```\nlista https://raw.githubusercontent.com/usuario/repositorio/main/mi_lista.m3u\n```")
+    md.append("La reviso (que abra y traiga canales, así se evitan errores de tecleo) y la agrego a **todos tus equipos como si la hubieras puesto a mano**. Se ve en la app a las pocas horas.\n")
     md.append("## Alertas\n")
     md += ["- " + a for a in al] or ["- Ninguna: todo igual que la semana pasada."]
     md += ["", "<details><summary><b>Salud de las listas (%d) — toca para abrir</b></summary>\n" % len(cur), "| Lista | Responde | Entradas | Buenas (nube) |", "|---|---|---|---|"]
@@ -287,6 +319,8 @@ def main():
         f.write("\n".join(md) + "\n")
     partes = ["%d alerta(s)" % len(al) if al else "todo bien"]
     partes.append("%d lista(s) esperando tu decisión" % len(pend["items"]) if pend["items"] else "sin listas nuevas")
+    if probs:
+        partes.append("%d lista(s) tuya(s) con problemas" % probs)
     if any("Quitada" in n for n in notes):
         partes.append("se quitó una lista caída")
     if any("Se agregó" in n for n in notes):
