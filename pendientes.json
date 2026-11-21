@@ -1,1 +1,18 @@
-{"next": 1, "items": []}
+{
+ "next": 2,
+ "items": [
+  {
+   "url": "https://raw.githubusercontent.com/miniclipstvia-hub/cine-latino-iptv/main/Cine_Latino_4K_HD.m3u",
+   "entradas": 213,
+   "nuevas": 21,
+   "vivas_pct": 71,
+   "adultos_pct": 0.0,
+   "estimadas": 15,
+   "repo": "miniclipstvia-hub/cine-latino-iptv",
+   "actualizado": "2026-09-27",
+   "id": 1,
+   "desde": "2026-11-21",
+   "fallos": 0
+  }
+ ]
+}
