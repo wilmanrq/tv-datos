@@ -21,6 +21,26 @@ def norm(u):
     return (m.group(1).lower() + m.group(2)) if m else u.lower()
 
 
+ADULT = re.compile(r"xxx|adult|porn|porno|sex|erotic|erotica|18\+|hentai|playboy|brazzers|camgirl|\bhot\b|nude|desnud", re.I)
+YEAR_TITLE = re.compile(r"\((?:19|20)\d\d\)")
+VOD_NAME = re.compile(r"cine|movie|peli|film|vod|serie|anime|xxx|adult|porn", re.I)
+
+
+def contenido(url, text):
+    """Mismas reglas del vigilante: devuelve el motivo si la lista es de adultos o de películas/series bajo demanda; si no, None."""
+    ext = [l for l in text.splitlines() if l.upper().startswith("#EXTINF")]
+    n = max(1, len(ext))
+    adult = sum(1 for l in ext if ADULT.search(l))
+    vod = sum(1 for l in ext if YEAR_TITLE.search(l))
+    if adult / n > 0.15:
+        return "tiene demasiado contenido para adultos (%d%% de sus canales)" % round(100 * adult / n)
+    if vod / n > 0.25:
+        return "parece una lista de películas/series bajo demanda (%d%% de sus entradas)" % round(100 * vod / n)
+    if VOD_NAME.search(url.rsplit("/", 1)[-1]):
+        return "por su nombre parece una lista de películas, series o adultos"
+    return None
+
+
 def first(u):
     return u if isinstance(u, str) else u[0]
 
@@ -145,6 +165,10 @@ def main():
             n = len(re.findall(r"(?im)^#EXTINF", t))
             if not force and n < 3:
                 reply.append("- ⚠️ **No agregué** %s: no pude leerla o no trae canales (%d entradas). Revisa que la dirección esté bien escrita (un error de tecleo es lo más común). Si estás seguro de que es correcta, escribe `lista! %s` para agregarla igual." % (url, n, url))
+                continue
+            motivo = None if force else contenido(url, t)
+            if motivo:
+                reply.append("- 🚫 **No agregué** %s: %s. Esa lista no pasa los filtros de contenido. Si de todos modos la quieres (la app igual descarta canales de adultos, religiosos, radios y novelas), escribe `lista! %s`." % (url, motivo, url))
                 continue
             nid = pend["next"]; pend["next"] += 1
             cfg.setdefault("sources", []).append({"u": url, "mode": "int", "user": True, "id": nid, "desde": now_t})
