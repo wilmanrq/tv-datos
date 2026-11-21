@@ -1,0 +1,8 @@
+AGREGAR EL VIGILANTE SEMANAL (vigilar.py)
+
+1) Sube vigilar.py: en el repositorio  Add file > Upload files > arrastra vigilar.py > Commit changes.
+2) Crea el flujo: Add file > Create new file. En el nombre escribe:  .github/workflows/vigilar.yml
+   Pega el contenido de vigilar.yml (esta en la carpeta .github/workflows de este zip) > Commit changes.
+3) Pruebalo ya: Actions > "Vigilar listas" > Run workflow. Tarda unos minutos.
+4) Resultado: aparece reporte_semanal.md en el repositorio y, si hay alertas o listas nuevas, un Issue en la pestana Issues
+   (GitHub te avisa por correo).
