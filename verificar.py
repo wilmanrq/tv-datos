@@ -289,7 +289,10 @@ GROUP_RX = re.compile(r'group-title="([^"]*)"')
 
 FREETV = "https://raw.githubusercontent.com/Free-TV/IPTV/master/playlist.m3u8"
 JONY = "https://raw.githubusercontent.com/IamJony/IPTVListaLibre/refs/heads/main/es_unificado.m3u"
-FILTERED = [(FREETV, "sp"), (JONY, "sp")] + [(RAW + n + ".m3u", "us") for n in FAST_US]
+ECLIST = HUB + "countries/ec.m3u"
+# la lista de Ecuador va completa pero sin la etiqueta [Geo-blocked]: en un equipo con la región del sistema fuera de Ecuador (muchas TV) la app mandaba esas fuentes al final
+FILTERED = [(FREETV, "sp"), (JONY, "sp"), (ECLIST, "ungeo")] + [(RAW + n + ".m3u", "us") for n in FAST_US]
+GEO_TAG = re.compile(r"\s*\[\s*geo-?blocked\s*\]", re.I)
 
 
 def plain(s):
@@ -358,6 +361,9 @@ def drop_entry(block, kind):
 
 def filter_text(text, kind):
     head, blocks = split_entries(text)
+    if kind == "ungeo":
+        kept = [[GEO_TAG.sub("", b[0])] + list(b[1:]) for b in blocks]      # no se descarta nada: solo se quita la etiqueta
+        return head, kept, len(blocks)
     kept = [b for b in blocks if not drop_entry(b, kind)]
     return head, kept, len(blocks)
 
