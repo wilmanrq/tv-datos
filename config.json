@@ -29,6 +29,13 @@
    "user": true,
    "id": 5,
    "desde": "2026-11-22"
+  },
+  {
+   "u": "https://raw.githubusercontent.com/BuddyChewChew/app-m3u-generator/main/playlists/plutotv_mx.m3u",
+   "mode": "int",
+   "user": true,
+   "id": 6,
+   "desde": "2026-11-22"
   }
  ],
  "block": []
