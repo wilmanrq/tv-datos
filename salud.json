@@ -964,6 +964,221 @@
      "g": 61
     }
    }
+  },
+  {
+   "fecha": "2026-11-22",
+   "lists": {
+    "https://iptv-org.github.io/iptv/countries/ec.m3u": {
+     "ok": true,
+     "n": 114,
+     "g": 4
+    },
+    "https://raw.githubusercontent.com/velfin13/tv-ecuador-m3u/main/playlist.m3u": {
+     "ok": true,
+     "n": 8,
+     "g": 0
+    },
+    "https://www.m3u.cl/lista/EC.m3u": {
+     "ok": true,
+     "n": 25,
+     "g": 0
+    },
+    "https://iptv-org.github.io/iptv/languages/spa.m3u": {
+     "ok": true,
+     "n": 2427,
+     "g": 81
+    },
+    "https://raw.githubusercontent.com/iptv-org/iptv/master/streams/mx_pluto.m3u": {
+     "ok": true,
+     "n": 192,
+     "g": 0
+    },
+    "https://raw.githubusercontent.com/iptv-org/iptv/master/streams/mx_samsung.m3u": {
+     "ok": true,
+     "n": 6,
+     "g": 0
+    },
+    "https://raw.githubusercontent.com/iptv-org/iptv/master/streams/us_pluto.m3u": {
+     "ok": true,
+     "n": 400,
+     "g": 0
+    },
+    "https://raw.githubusercontent.com/iptv-org/iptv/master/streams/us_samsung.m3u": {
+     "ok": true,
+     "n": 407,
+     "g": 47
+    },
+    "https://raw.githubusercontent.com/iptv-org/iptv/master/streams/us_tubi.m3u": {
+     "ok": true,
+     "n": 155,
+     "g": 5
+    },
+    "https://raw.githubusercontent.com/iptv-org/iptv/master/streams/us_xumo.m3u": {
+     "ok": true,
+     "n": 107,
+     "g": 12
+    },
+    "https://raw.githubusercontent.com/iptv-org/iptv/master/streams/us_roku.m3u": {
+     "ok": true,
+     "n": 32,
+     "g": 1
+    },
+    "https://raw.githubusercontent.com/iptv-org/iptv/master/streams/us_plex.m3u": {
+     "ok": true,
+     "n": 24,
+     "g": 1
+    },
+    "https://raw.githubusercontent.com/iptv-org/iptv/master/streams/us_stirr.m3u": {
+     "ok": true,
+     "n": 89,
+     "g": 4
+    },
+    "https://raw.githubusercontent.com/iptv-org/iptv/master/streams/us_vizio.m3u": {
+     "ok": true,
+     "n": 430,
+     "g": 13
+    },
+    "https://raw.githubusercontent.com/Free-TV/IPTV/master/playlist.m3u8": {
+     "ok": true,
+     "n": 2193,
+     "g": 59
+    },
+    "https://iptv-org.github.io/iptv/countries/mx.m3u": {
+     "ok": true,
+     "n": 178,
+     "g": 3
+    },
+    "https://iptv-org.github.io/iptv/countries/co.m3u": {
+     "ok": true,
+     "n": 169,
+     "g": 8
+    },
+    "https://iptv-org.github.io/iptv/countries/ar.m3u": {
+     "ok": true,
+     "n": 221,
+     "g": 11
+    },
+    "https://iptv-org.github.io/iptv/countries/es.m3u": {
+     "ok": true,
+     "n": 299,
+     "g": 8
+    },
+    "https://iptv-org.github.io/iptv/countries/pe.m3u": {
+     "ok": true,
+     "n": 219,
+     "g": 5
+    },
+    "https://iptv-org.github.io/iptv/countries/cl.m3u": {
+     "ok": true,
+     "n": 213,
+     "g": 7
+    },
+    "https://iptv-org.github.io/iptv/countries/ve.m3u": {
+     "ok": true,
+     "n": 104,
+     "g": 3
+    },
+    "https://iptv-org.github.io/iptv/countries/uy.m3u": {
+     "ok": true,
+     "n": 52,
+     "g": 2
+    },
+    "https://iptv-org.github.io/iptv/countries/py.m3u": {
+     "ok": true,
+     "n": 110,
+     "g": 2
+    },
+    "https://iptv-org.github.io/iptv/countries/bo.m3u": {
+     "ok": true,
+     "n": 117,
+     "g": 3
+    },
+    "https://iptv-org.github.io/iptv/countries/pa.m3u": {
+     "ok": true,
+     "n": 28,
+     "g": 0
+    },
+    "https://iptv-org.github.io/iptv/countries/cr.m3u": {
+     "ok": true,
+     "n": 69,
+     "g": 0
+    },
+    "https://iptv-org.github.io/iptv/countries/gt.m3u": {
+     "ok": true,
+     "n": 66,
+     "g": 0
+    },
+    "https://iptv-org.github.io/iptv/countries/hn.m3u": {
+     "ok": true,
+     "n": 78,
+     "g": 5
+    },
+    "https://iptv-org.github.io/iptv/countries/sv.m3u": {
+     "ok": true,
+     "n": 40,
+     "g": 5
+    },
+    "https://iptv-org.github.io/iptv/countries/ni.m3u": {
+     "ok": true,
+     "n": 20,
+     "g": 3
+    },
+    "https://iptv-org.github.io/iptv/countries/do.m3u": {
+     "ok": true,
+     "n": 257,
+     "g": 5
+    },
+    "https://iptv-org.github.io/iptv/countries/pr.m3u": {
+     "ok": true,
+     "n": 29,
+     "g": 0
+    },
+    "https://iptv-org.github.io/iptv/countries/cu.m3u": {
+     "ok": true,
+     "n": 5,
+     "g": 0
+    },
+    "https://raw.githubusercontent.com/IamJony/IPTVListaLibre/refs/heads/main/es_unificado.m3u": {
+     "ok": true,
+     "n": 1419,
+     "g": 66
+    },
+    "https://teleonline.github.io/listas/tv.m3u8": {
+     "ok": true,
+     "n": 576,
+     "g": 7
+    },
+    "https://raw.githubusercontent.com/CharlieII/IPTV_mexico/refs/heads/main/lista.m3u": {
+     "ok": true,
+     "n": 278,
+     "g": 8
+    },
+    "https://www.tdtchannels.com/lists/tv.m3u8": {
+     "ok": true,
+     "n": 574,
+     "g": 9
+    },
+    "https://raw.githubusercontent.com/dzh0ni/iPTV-FREE-LIST/master/iPTV-Free-List_TV.m3u": {
+     "ok": true,
+     "n": 197,
+     "g": 26
+    },
+    "https://raw.githubusercontent.com/JMigue85/IPTV-SV/refs/heads/main/IPTVSV.m3u": {
+     "ok": true,
+     "n": 1907,
+     "g": 61
+    },
+    "https://raw.githubusercontent.com/BuddyChewChew/app-m3u-generator/main/playlists/plex_mx.m3u": {
+     "ok": true,
+     "n": 278,
+     "g": 0
+    },
+    "https://raw.githubusercontent.com/BuddyChewChew/app-m3u-generator/main/playlists/plutotv_mx.m3u": {
+     "ok": true,
+     "n": 203,
+     "g": 0
+    }
+   }
   }
  ]
 }

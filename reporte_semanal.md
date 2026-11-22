@@ -15,12 +15,20 @@ El vigilante **nunca** las quita: si una falla, tú decides. Marca **Quitar** so
 - [ ] 🗑️ **Quitar** esta lista <!--q2-->
 
 **Lista n.º 3** · https://raw.githubusercontent.com/dzh0ni/iPTV-FREE-LIST/master/iPTV-Free-List_TV.m3u  
-🟢 responde · 229 entradas · 27 buenas en la nube  
+🟢 responde · 197 entradas · 26 buenas en la nube  
 - [ ] 🗑️ **Quitar** esta lista <!--q3-->
 
 **Lista n.º 4** · https://raw.githubusercontent.com/JMigue85/IPTV-SV/refs/heads/main/IPTVSV.m3u  
 🟢 responde · 1907 entradas · 61 buenas en la nube  
 - [ ] 🗑️ **Quitar** esta lista <!--q4-->
+
+**Lista n.º 5** · https://raw.githubusercontent.com/BuddyChewChew/app-m3u-generator/main/playlists/plex_mx.m3u  
+🟢 responde · 278 entradas · 0 buenas en la nube  
+- [ ] 🗑️ **Quitar** esta lista <!--q5-->
+
+**Lista n.º 6** · https://raw.githubusercontent.com/BuddyChewChew/app-m3u-generator/main/playlists/plutotv_mx.m3u  
+🟢 responde · 203 entradas · 0 buenas en la nube  
+- [ ] 🗑️ **Quitar** esta lista <!--q6-->
 
 ### ➕ ¿Quieres agregar una lista tuya?
 
@@ -35,7 +43,7 @@ La reviso (que abra y traiga canales, así se evitan errores de tecleo) y la agr
 
 - Ninguna: todo igual que la semana pasada.
 
-<details><summary><b>Salud de las listas (40) — toca para abrir</b></summary>
+<details><summary><b>Salud de las listas (42) — toca para abrir</b></summary>
 
 | Lista | Responde | Entradas | Buenas (nube) |
 |---|---|---|---|
@@ -77,8 +85,10 @@ La reviso (que abra y traiga canales, así se evitan errores de tecleo) y la agr
 | teleonline.github.io/listas/tv.m3u8 | sí | 576 | 7 |
 | raw.githubusercontent.com/CharlieII/IPTV_mexico/refs/heads/main/lista.m3u | sí | 278 | 8 |
 | www.tdtchannels.com/lists/tv.m3u8 | sí | 574 | 9 |
-| raw.githubusercontent.com/dzh0ni/iPTV-FREE-LIST/master/iPTV-Free-List_TV.m3u | sí | 229 | 27 |
+| raw.githubusercontent.com/dzh0ni/iPTV-FREE-LIST/master/iPTV-Free-List_TV.m3u | sí | 197 | 26 |
 | raw.githubusercontent.com/JMigue85/IPTV-SV/refs/heads/main/IPTVSV.m3u | sí | 1907 | 61 |
+| raw.githubusercontent.com/BuddyChewChew/app-m3u-generator/main/playlists/plex_mx | sí | 278 | 0 |
+| raw.githubusercontent.com/BuddyChewChew/app-m3u-generator/main/playlists/plutotv | sí | 203 | 0 |
 
 </details>
 
