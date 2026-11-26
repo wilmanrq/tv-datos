@@ -1,10 +1,8 @@
 #EXTM3U
-#CLOUD t=1795644103 kept=4 of=430
+#CLOUD t=1795656128 kept=3 of=426
 #EXTINF:-1 tvg-id="AMCenEspanol.us@SD",AMC en Español (1080p)
 https://amc-amcespanol-1-us.vizio.wurl.tv/playlist.m3u8
 #EXTINF:-1 tvg-id="LoveNatureenEspanol.us@SD",Love Nature en Español (1080p) [Geo-blocked]
 https://amg01515-amg01515c17-vizio-us-10418.playouts.now.amagi.tv/playlist.m3u8
 #EXTINF:-1 tvg-id="",Shark Tank Latino (1080p)
 https://d1dclv062w81ra.cloudfront.net/playlist.m3u8
-#EXTINF:-1 tvg-id="XITENuevoLatino.us@SD",XITE Nuevo Latino (1080p) [Geo-blocked]
-https://amg01243-amg01243c41-amgplt0022.playout.now3.amagi.tv/ts-us-e2-n1/playlist/amg01243-amg01243c41-amgplt0022/playlist.m3u8

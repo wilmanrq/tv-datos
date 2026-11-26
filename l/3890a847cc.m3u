@@ -1,5 +1,5 @@
 #EXTM3U
-#CLOUD t=1795644102 kept=8 of=407
+#CLOUD t=1795656128 kept=6 of=394
 #EXTINF:-1 tvg-id="AMCenEspanol.us@SD",AMC en Español (720p) [Geo-blocked]
 https://pb-fmbyorn1d0n1n.akamaized.net/v1/amc_amcespanol_3/samsungheadend_us/latest/main/hls/playlist.m3u8
 #EXTINF:-1 tvg-id="beINSPORTSXTRAenEspanol.us@SD",beIN Sports XTRA en Espanol (1080p)
@@ -12,7 +12,3 @@ https://pb-21qh1uz4mmkrs.akamaized.net/master.m3u8
 https://d1kq7q3vteqjb.cloudfront.net/master.m3u8
 #EXTINF:-1 tvg-id="VevoLatino.us@SD",Vevo Latino (1080p)
 https://d1vgg34wqvwdqj.cloudfront.net/Vevo_Latino.m3u8
-#EXTINF:-1 tvg-id="",XITE Nuevo Latino (1080p)
-https://d3bsgqzbpkrvbb.cloudfront.net/XITE_Nuevo_Latino.m3u8
-#EXTINF:-1 tvg-id="",XITE Siempre Latino (1080p)
-https://d1xc25jm9e0l4b.cloudfront.net/XITE_Siempre_Latino.m3u8
